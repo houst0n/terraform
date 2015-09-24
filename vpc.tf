@@ -197,6 +197,9 @@ resource "aws_instance" "jenkins" {
 	key_name = "${var.keypair}"
 	security_groups = ["${aws_security_group.jenkins.id}"]
 	subnet_id = "${aws_subnet.eu-west-1a-public.id}"
+  tags {
+      Role = "jenkins"
+  }
 }
 
 resource "aws_eip" "jenkins" {
