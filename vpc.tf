@@ -137,6 +137,13 @@ resource "aws_security_group" "bastion" {
 		cidr_blocks = ["0.0.0.0/0"]
 	}
 
+  egress {
+				from_port = 0
+				to_port = 0
+				protocol = "-1"
+				cidr_blocks = ["0.0.0.0/0"]
+  }
+
 	vpc_id = "${aws_vpc.default.id}"
 }
 
@@ -153,3 +160,50 @@ resource "aws_eip" "bastion" {
 	instance = "${aws_instance.bastion.id}"
 	vpc = true
 }
+# Jenkins
+
+resource "aws_security_group" "jenkins" {
+	name = "jenkins"
+	description = "Allow SSH+Web traffic from the internet"
+
+	ingress {
+		from_port = 22
+		to_port = 22
+		protocol = "tcp"
+		cidr_blocks = ["0.0.0.0/0"]
+	}
+
+	ingress {
+		from_port = 8080
+		to_port = 8080
+		protocol = "tcp"
+		cidr_blocks = ["0.0.0.0/0"]
+	}
+
+	 egress {
+				from_port = 0
+				to_port = 0
+				protocol = "-1"
+				cidr_blocks = ["0.0.0.0/0"]
+		}
+
+	vpc_id = "${aws_vpc.default.id}"
+}
+
+resource "aws_instance" "jenkins" {
+	ami = "${var.aws_ubuntu_ami}"
+	availability_zone = "eu-west-1a"
+	instance_type = "t2.micro"
+	key_name = "${var.keypair}"
+	security_groups = ["${aws_security_group.jenkins.id}"]
+	subnet_id = "${aws_subnet.eu-west-1a-public.id}"
+}
+
+resource "aws_eip" "jenkins" {
+	instance = "${aws_instance.jenkins.id}"
+	vpc = true
+}
+
+
+
+
