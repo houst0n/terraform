@@ -1,7 +1,7 @@
 # Routing table for public subnets
 
 resource "aws_route_table" "eu-west-1-public" {
-	vpc_id = "${aws_vpc.dev.id}"
+	vpc_id = "${aws_vpc.int.id}"
 
 	route {
 		cidr_block = "0.0.0.0/0"
@@ -22,7 +22,7 @@ resource "aws_route_table_association" "eu-west-1b-public" {
 # Routing table for private subnets
 
 resource "aws_route_table" "eu-west-1-private" {
-	vpc_id = "${aws_vpc.dev.id}"
+	vpc_id = "${aws_vpc.int.id}"
 
 	route {
 		cidr_block = "0.0.0.0/0"

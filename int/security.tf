@@ -15,7 +15,7 @@ resource "aws_security_group" "nat" {
 		cidr_blocks = ["${aws_subnet.eu-west-1b-private.cidr_block}"]
 	}
 
-	vpc_id = "${aws_vpc.dev.id}"
+	vpc_id = "${aws_vpc.int.id}"
 }
 
 resource "aws_security_group" "bastion" {
@@ -36,7 +36,7 @@ resource "aws_security_group" "bastion" {
 				cidr_blocks = ["0.0.0.0/0"]
   }
 
-	vpc_id = "${aws_vpc.dev.id}"
+	vpc_id = "${aws_vpc.int.id}"
 }
 
 resource "aws_security_group" "jenkins" {
@@ -64,6 +64,6 @@ resource "aws_security_group" "jenkins" {
 				cidr_blocks = ["0.0.0.0/0"]
 		}
 
-	vpc_id = "${aws_vpc.dev.id}"
+	vpc_id = "${aws_vpc.int.id}"
 }
 
